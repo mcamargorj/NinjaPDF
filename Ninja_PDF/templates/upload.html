@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja PDF</title>
+     <!-- Adicionar favicon -->
+     <link rel="shortcut icon" type="image/x-icon" href="static/images/favicon.ico">
+     <!-- Difini logo do app ao salvar link no IOS -->
+     <link rel="apple-touch-icon" href="/static/images/plan_ios.png"> 
+     <!-- Adicionar upload.css ao template para aplicações flask, por isso o url_for(...)-->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}"> 
+
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="reload-container">
+            <form action="/restaurar" method="GET">
+               
+                <img src="/static/images/reload.png" alt="Recarregar" class="img-reload" style="cursor: pointer;" onclick="this.parentNode.submit();"/>
+                
+            </form>
+        </div>
+
+        {% if sucesso %}
+        <div class="success-message">{{ sucesso }}</div>
+        {% set botao_desativado = 'disabled' %}
+        {% endif %}
+        {% if erro %}
+            <div class="error-message">{{ erro | safe }}</div>
+        {% endif %}
+        
+        
+        <div class="logo">
+            
+            <img src="/static/images/ninja_pdf.png" alt="Ninja PDF">
+          
+        </div>   
+        <h2>Ninja PDF</h2>
+        <div class="imagens">
+            
+            <img src="/static/images/pdf.png" alt="pdf">
+            
+        </div>
+        <form method="POST" action="" enctype="multipart/form-data" onsubmit="Enviar_Carregando()">
+            <label for="arquivo" class="custom-file-upload">
+                Selecionar Arquivo
+            </label>
+            <input type="file" name="arquivo" id="arquivo" accept=".pdf" {{ botao_desativado }} required>
+            <button type="submit" {{ botao_desativado }}  class="button">Enviar</button>
+            <div id="enviar">
+                <img src="/static/images/loading.gif" alt="Carregando..."class="enviar-img">
+            </div>
+            
+        </form>
+        <div class="arquivos-enviados">
+            
+            <table>
+                <h3>Arquivo Enviado:</h3>
+                <tbody>
+                    
+                        <tr>
+                            <td> {{ arquivo_enviado }}</td>
+                        </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+        <br>
+
+        <form action="/processar" method="POST" onsubmit="Unificar_Carregando()">
+            <div id="unificar">
+                <img src="/static/images/loading.gif" alt="Carregando..."class="unificar-img">
+            </div>
+                
+                
+                
+            <button type="submit" class="button">Remover Proteção</button>
+        </form>
+        <form action="/download" method="GET">
+            {% if arquivo_gerado %}                              
+                <img src="/static/images/btn_pdf.gif" alt="Download" class="img-download" style="cursor: pointer;" onclick="this.parentNode.submit();" />
+            {% else %}
+                <!-- Exibir a imagem desabilitada -->
+                <img src="/static/images/btn_pdf.gif" alt="Download" class="img-download button-disabled" style="cursor: not-allowed;" />
+            {% endif %}
+        </form>
+        
+    </div>
+
+    <script>
+        function Enviar_Carregando() {
+    var loadingImg = document.querySelector('#enviar img');
+    loadingImg.style.display = 'block';
+}
+    </script>
+    <script>
+        function Unificar_Carregando() {
+    var loadingImg = document.querySelector('#unificar img');
+    loadingImg.style.display = 'block';
+}
+    </script>
+</body>
+</html>

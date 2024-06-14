@@ -1,0 +1,203 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f9ff; /* Azul claro */
+    background-image: url("/static/images/fundo1.png");
+    background-size: cover; /* Ajusta o tamanho da imagem para cobrir toda a div */
+    background-position: center; /* Centraliza a imagem */
+    background-color: rgba(255, 255, 255, 0.1); /* Cor de fundo com transparência */
+    opacity: 0.91;
+}
+
+.container {
+    max-width: 300px;
+    margin: auto;
+    padding: 20px;
+    background-color: #e0f7ff; /* Azul muito claro */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+    text-align: center;
+    position: relative;
+}
+
+.imagens img {
+    max-width: 100px; /* Define a largura máxima da imagem */
+    height: auto; /* Mantém a proporção da imagem */
+    display: block; /* Remove espaços extras ao redor da imagem */
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 0px;
+    color: #005580; /* Azul escuro */
+}
+
+form {
+    text-align: center;
+}
+
+input[type=file] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 2px solid #0099cc; /* Azul oceano */
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #0077b3; /* Azul oceano */
+    color: white;
+}
+
+.custom-file-upload:hover {
+    background-color: #005580; /* Azul escuro */
+}
+
+.button {
+    background-color: #0077b3; /* Azul oceano */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #005580; /* Azul escuro */
+}
+
+.button-disabled {
+    opacity: 0; /* Aumentei a opacidade para melhorar a visibilidade */
+    pointer-events: none; /* Impede que o botão seja clicável */
+}
+
+.arquivos-enviados {
+    max-width: 300px;
+    margin: auto;
+    padding: 20px;
+    background-color: #e0f7ff; /* Azul muito claro */
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-family: Arial, sans-serif; /* Escolha uma fonte suave */
+    font-size: 14px; /* Tamanho da fonte */
+    color: #005580; /* Azul escuro */
+}
+
+th {
+    background-color: #cceeff; /* Azul muito claro */
+}
+
+tr:hover {
+    background-color: #e0f7ff; /* Azul claro */
+}
+
+.success-message {
+    color: #0077b3; /* Azul oceano */
+    font-weight: bold;
+}
+
+.error-message {
+    color: #ff3333; /* Vermelho */
+    font-weight: bold;
+}
+
+.img-download {
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+.img-reload {
+    width: 30px; /* Ajuste o tamanho conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+.reload-container {
+    position: absolute;
+    top: 10px; /* ajuste conforme necessário */
+    right: 10px; /* ajuste conforme necessário */
+}
+
+#enviar img {
+    display: none;
+}
+
+#enviar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enviar-img {
+    width: 50px; /* Defina o tamanho desejado */
+    height: 50px; /* Defina o tamanho desejado */
+}
+
+#unificar img {
+    display: none;
+}
+
+#unificar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.unificar-img {
+    width: 50px; /* Defina o tamanho desejado */
+    height: 50px; /* Defina o tamanho desejado */
+}
+
+.logo {
+    text-align: center; /* Centraliza horizontalmente */
+}
+
+.logo img {
+    max-width: 65px; /* Define a largura máxima da imagem */
+    height: auto; /* Mantém a proporção da imagem */
+    display: block; /* Remove espaços extras ao redor da imagem */
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+/* Estilo para o label */
+label {
+    font-size: 15px; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    color: #333; /* Cor do texto */
+}
+
+/* Estilo para o input de senha */
+input[type="password"] {
+    padding: 10px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda cinza */
+    border-radius: 5px; /* Borda arredondada */
+    box-shadow: 0 0 5px red; /* Sombra vermelha */
+    width: 50%; /* Largura total */
+    margin-bottom: 10px; /* Margem inferior */
+}
+
+/* Estilo para o texto "Digite sua senha" dentro do input */
+input[type="password"]::placeholder {
+    color: #999; /* Cor do texto do placeholder */
+}
