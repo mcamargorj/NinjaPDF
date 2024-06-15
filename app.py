@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, send_file
 import os
-import subprocess
+import pikepdf
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -68,46 +68,53 @@ def processar_arquivos():
             nome_arquivo_saida = 'pdf_desbloqueado.pdf'
             caminho_arquivo_saida = os.path.join(dir_uploads, nome_arquivo_saida)
 
-            
             if arquivo_enviado.endswith('.pdf'):
                 caminho_arquivo = os.path.join(dir_uploads, arquivo_enviado)
-                    
-                # Verificar se o arquivo requer senha
-                resultado = subprocess.run(f'qpdf --decrypt --password={senha} "{caminho_arquivo}" "{caminho_arquivo_saida}"', shell=True, capture_output=True, text=True)
-                if 'invalid password' in resultado.stderr:
-                    # Se uma senha é necessária, usar a senha fornecida ou solicitar ao usuário
-                    if not senha or senha == "":    
+                
+                try:
+                    # Tentar abrir o PDF sem senha
+                    with pikepdf.open(caminho_arquivo) as pdf:
+                        # Salvar o PDF sem restrições
+                        pdf.save(caminho_arquivo_saida)
+                        print(f'PDF salvo em: {caminho_arquivo_saida}')  # Adicionar mensagem de depuração
+                except pikepdf.PasswordError:
+                    # Se a exceção PasswordError for levantada, o arquivo está protegido por senha
+                    if not senha or senha == "":
                         # Redirecionar de volta para a página de upload com mensagem de erro
                         mensagem_erro = 'Este arquivo requer <br> uma senha para desbloqueio.'
                         return redirect(url_for('formulario_upload', erro=mensagem_erro))
-                        #return render_template('upload.html', erro=mensagem_erro, arquivos_enviados=arquivos_enviados)                        
                     else:
-                        #comando = f'qpdf --decrypt --password={senha} "{caminho_arquivo}" "{caminho_arquivo_saida}"'
-                        mensagem_erro = 'Senha incorreta!'
-                        return redirect(url_for('formulario_upload', erro=mensagem_erro))
-                else:
-                    # Se nenhuma senha é necessária, desbloquear o arquivo sem senha
-                    comando = f'qpdf --decrypt  "{caminho_arquivo}" "{caminho_arquivo_saida}"'
-
-                    
-                print(f'Comando: {comando}')  # Adicionar mensagem de depuração
-                resultado = subprocess.run(comando, shell=True)
-                if resultado.returncode != 0:
-                    print(f'Ocorreu um erro ao desbloquear o arquivo: {resultado.stderr}')  # Adiciona mensagem de erro
+                        try:
+                            # Tentar abrir o PDF com a senha fornecida
+                            with pikepdf.open(caminho_arquivo, password=senha) as pdf:
+                                # Salvar o PDF sem restrições
+                                pdf.save(caminho_arquivo_saida)
+                                print(f'PDF salvo em: {caminho_arquivo_saida}')  # Adicionar mensagem de depuração
+                        except pikepdf.PasswordError:
+                            # Senha incorreta
+                            mensagem_erro = 'Senha incorreta!'
+                            return redirect(url_for('formulario_upload', erro=mensagem_erro))
+                        except Exception as e:
+                            print(f'Ocorreu um erro ao tentar abrir o PDF: {e}')
+                            mensagem_erro = 'Erro ao processar o arquivo.'
+                            return redirect(url_for('formulario_upload', erro=mensagem_erro))
+                except Exception as e:
+                    print(f'Ocorreu um erro ao tentar abrir o PDF: {e}')
+                    mensagem_erro = 'Erro ao processar o arquivo.'
+                    return redirect(url_for('formulario_upload', erro=mensagem_erro))
 
             arquivo_gerado = caminho_arquivo_saida  # Definindo o arquivo gerado
             return redirect(url_for('formulario_upload', download_file=arquivo_gerado))
-            
-
         else:
             mensagem_erro = 'Selecione o arquivo!'
             limpar()
             return redirect(url_for('formulario_upload', erro=mensagem_erro))
-
     except Exception as e:
-        mensagem_erro = f'Erro ao processar arquivos: {str(e)}'
+        print(f'Ocorreu um erro: {e}')
+        mensagem_erro = 'Erro ao processar o arquivo.'
         limpar()
         return redirect(url_for('formulario_upload', erro=mensagem_erro))
+
 
 
 @app.route('/', methods=['GET'])
