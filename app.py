@@ -124,7 +124,7 @@ def formulario_upload():
     download_file = request.args.get('download_file')
 
     if download_file:
-        return render_template('upload.html', sucesso="Arquivo Gerado!", arquivo_gerado=arquivo_gerado, arquivos_enviado=arquivo_enviado)
+        return render_template('upload.html', sucesso="Arquivo Gerado!", arquivo_gerado=arquivo_gerado, arquivo_enviado=arquivo_enviado)
     if not arquivo_enviado: 
         erro = request.args.get('erro')
         return render_template('upload.html', erro=erro)
